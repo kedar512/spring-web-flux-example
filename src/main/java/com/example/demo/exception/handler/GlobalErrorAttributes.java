@@ -28,9 +28,10 @@ public class GlobalErrorAttributes extends DefaultErrorAttributes{
         if (t instanceof ConfigNotFoundException) {
         	map.put("status", HttpStatus.OK);
             map.put("message", "Config details not found");
+        } else {
+        	map.put("status", getStatus());
+            map.put("message", getMessage());
         }
-        map.put("status", getStatus());
-        map.put("message", getMessage());
         return map;
     }
 

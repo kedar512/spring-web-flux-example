@@ -16,6 +16,6 @@ public class ConfigController {
 	
 	@GetMapping("/config")
 	public Mono<String> getConfig() {
-		return configService.fetchConfigCount();
+		return configService.fetchConfigCount("count");
 	}
 }
