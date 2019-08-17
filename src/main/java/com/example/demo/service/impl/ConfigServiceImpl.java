@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.exception.ConfigNotFoundException;
+import com.example.demo.model.Config;
+import com.example.demo.repository.ConfigRepository;
 import com.example.demo.service.ConfigService;
 
 import reactor.core.publisher.Mono;
@@ -17,6 +19,9 @@ public class ConfigServiceImpl implements ConfigService {
 	
 	@Autowired
 	ReactiveMongoTemplate template;
+	
+	@Autowired
+	ConfigRepository configRepo;
 	
 	@Value("${mongo.config.document.id}")
 	private String documentId;
@@ -30,6 +35,11 @@ public class ConfigServiceImpl implements ConfigService {
 		
 		return template.findOne(query, String.class, "test")
 				.switchIfEmpty(Mono.error(new ConfigNotFoundException("Config details not found")));
+	}
+
+	@Override
+	public Mono<Config> fetchConfigDetails() {
+		return configRepo.findByCountAndDataType("1000", "String");
 	}
 
 }

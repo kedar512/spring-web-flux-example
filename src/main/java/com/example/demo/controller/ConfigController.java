@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.Config;
 import com.example.demo.service.ConfigService;
 
 import reactor.core.publisher.Mono;
@@ -17,5 +18,10 @@ public class ConfigController {
 	@GetMapping("/config")
 	public Mono<String> getConfig() {
 		return configService.fetchConfigCount("count");
+	}
+	
+	@GetMapping("/configdetails")
+	public Mono<Config> getConfigDetails() {
+		return configService.fetchConfigDetails();
 	}
 }
