@@ -36,7 +36,9 @@ public class WebClientUtils {
 				.flatMap(body -> {
 					return Mono.just(new ResponseEntity<>(body, HttpStatus.OK));
 				});
-		}).onErrorResume(error -> {
+		})
+		.switchIfEmpty(Mono.defer(() -> emptyBodyResponse()))
+		.onErrorResume(error -> {
 			JSONObject jsonObj = new JSONObject();
 
 			jsonObj.put("message", "Error in calling service");
@@ -44,5 +46,14 @@ public class WebClientUtils {
 			
 			return Mono.just(new ResponseEntity<>(jsonObj.toString(), HttpStatus.INTERNAL_SERVER_ERROR));
 		});
+	}
+	
+	private Mono<ResponseEntity<String>> emptyBodyResponse() {
+		JSONObject jsonObj = new JSONObject();
+
+		jsonObj.put("message", "Empty body sent from service");
+		jsonObj.put("statusCode", 0);
+		
+		return Mono.just(new ResponseEntity<>(jsonObj.toString(), HttpStatus.OK));
 	}
 }
