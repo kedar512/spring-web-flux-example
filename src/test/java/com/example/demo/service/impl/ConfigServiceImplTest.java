@@ -1,8 +1,5 @@
 package com.example.demo.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,19 +25,10 @@ public class ConfigServiceImplTest {
 	
 	@Before
 	public void setUp() {
-		
-		String json = "{\r\n" + 
-				"    \"_id\" : ObjectId(\"5d54512075d2b91ee7065a30\"),\r\n" + 
-				"    \"count\" : \"1000\"\r\n" + 
-				"}";
-		Map<String, Object> data = new HashMap<>();
 		Config config = new Config();
 		
 		config.setId("5d54512075d2b91ee7065a30");
 		config.setCount("1000");
-		
-		data.put("_id", "5d54512075d2b91ee7065a30");
-		data.put("count", "1000");
 
 		StepVerifier.create(template.dropCollection(Config.class)).verifyComplete();
 
